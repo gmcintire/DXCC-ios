@@ -1,39 +1,32 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-  <title>DXCC Lookup</title>
-  <script src="jquery.js"></script>
-  <script src="phonegap-1.2.0.js"></script>
-  <script type="text/javascript">
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>DXCC Lookup</title> 
+    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="jquery.mobile.structure-1.1.0.css" />
+    <link rel="stylesheet" href="jquery.mobile.theme-1.1.0.css" />
+
+    <script src="jquery.js"></script>
+    <script src="phonegap-1.2.0.js"></script>
+    <script src="jquery.mobile-1.1.0.min.js"></script>
+    <script type="text/javascript">
   
 	$(document).ready(function(){
-		
+      document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 		$('.result').hide();
 		
-		// When submit buttons pressed go get callsign information
-		$(".submit_btn").click(function(event){
+		$("#callsign_lookup").submit(function(event){
 
-			// Store Callsign
 			var callsign = $("input#callsign").val()
 
 			if(callsign != "") { 
-				$('.info').hide();
 				$('.result').show();
 				
-				$('input#callsign"').val("");  
-			
+				$('input#callsign"').val("");
+        
 				// If callsign input not empty go get data
-				$.getJSON("http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/" + callsign + "?jsoncallback=?",function(data) {
-				
-					/* Log output */
-					//console.log(data);
-					
-					$('.result_for').text(callsign.toUpperCase());
-					
-					/* Output Result */
-					$.each(data, function(key, val) {
-						$("."+key).text(val);
-					});
-				});
+            //$.getJSON("http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/" + callsign,function(data) {
+
 			} else {
 				alert('Callsign Empty');
 			}
@@ -43,110 +36,34 @@
   </script>
   
   <style type="text/css" media="screen">
+  #pagebody {
+      height: 100%;
+      width: 100%;
+      }
   	body {
 		background-color: #eaeaea;
-		margin: 0px;
-		padding: 0px;
 	}
-	
-	h1.title {
-		background-color: #000000;
-		color: #2d9dc6;
-		padding: 5px;
-		font-size: 22px;
-		margin-bottom: 0px;		
-	}
-	
-	#search {
-		background-color: #111111;
-		vertical-align: middle;
-	}
-	
-	#search .options {
-		padding: 5px;
-		
-	}
-	
-	.result {
-		padding: 5px;
-		margin: 0 auto;
-	}
-	
-	.info {
-		padding: 5px;
-		margin: 0 auto;
-	}
-	
-	.result table {
-		width: 100%;
-		font-size: 20px;
-	}
-	
-	.result td {
-		padding: 5px;
-	}
-	
-	input#callsign {
-		font-size: 22px;
-		width: 65%;
-	}
-	.submit_btn {
-		width: 30%;
-		font-size: 22px;
-	}
-
-	
-	#map_canvas { height: 100% }
   </style>
 </head>
+<body> 
 
-<body>
-  <h1 class="title">DXCC Lookup</h1>
+<div id="pagebody" data-role="page">
 
-  <div id="search">
-  	<div class="options">
-		<input id="callsign" type="text" name="callsign" value="" />
-		<input class="submit_btn" type="submit" name="Find" value="Find" />
-	</div>
-  </div>
-
-	<div class="info">
-		<p>Please enter a callsign in the box above to get started.</p>
-	</p>
+	<div data-role="header">
+		<h1>DXCC Lookup</h1>
 	</div>
 
-  <div class="result">
+    <div data-role="content">
+        <form id="callsign_lookup" action="http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/?">
+            <div data-role="fieldcontain">
+                    <input id="callsign" name="callsign" placeholder="callsign" value="" type="text" />
+                <input type="submit" value="Lookup" />
+            </div>
+        </form>
+    </div>
 
-	<h2>Results for <span class="result_for"></span></h3>
-	
-	<table>
-	  <tr>
-		<td>Country</td>
-		<td class="name"></td>
-	  </tr>
 
-	  <tr>
-		<td>Continent</td>
-		<td class="cont"></td>
-	  </tr>
+</div>
 
-	  <tr>
-		<td>CQ Zone</td>
-		<td class="cqz"></td>
-	  </tr>
-
-	  <tr>
-		<td>ITU Zone</td>
-		<td class="ituz"></td>
-	  </tr>
-
-	  <tr>
-		<td>Lat/Long</td>
-		<td><span class="long"></span> <span class="lat"></span></td>
-	  </tr>
-	</table>
-
-  </div>
 </body>
-
 </html>

@@ -3,7 +3,7 @@
 //  DXCC
 //
 //  Created by Graham McIntire on 4/16/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Copyright Verona Networks 2012. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
