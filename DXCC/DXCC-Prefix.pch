@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'DXCC' target in the 'DXCC' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
