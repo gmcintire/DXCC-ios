@@ -10,42 +10,49 @@
     <script src="phonegap-1.2.0.js"></script>
     <script src="jquery.mobile-1.1.0.min.js"></script>
     <script type="text/javascript">
-  
+
 	$(document).ready(function(){
-      document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
-		$('.result').hide();
-		
-		$("#callsign_lookup").submit(function(event){
-
-			var callsign = $("input#callsign").val()
-
-			if(callsign != "") { 
-				$('.result').show();
-				
-				$('input#callsign"').val("");
-        
-				// If callsign input not empty go get data
-            //$.getJSON("http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/" + callsign,function(data) {
-
-			} else {
-				alert('Callsign Empty');
-			}
-		});
-	
+    document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+    
+    
+    $('#result').hide();
+    $("#callsign_lookup").submit(function(){
+      document.activeElement.blur();
+      $("input").blur();
+      $.getJSON("http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/" + $('input#callsign').val() + "?jsoncallback=?",function(data) {
+        $('#result').show();
+        $.each(data, function(key, val) {
+           $("."+key).text(val);
+        });
+      });
+      return false;
+    });
   });
   </script>
-  
+
   <style type="text/css" media="screen">
   #pagebody {
       height: 100%;
       width: 100%;
       }
-  	body {
-		background-color: #eaeaea;
-	}
+  body {
+      background-color: #eaeaea;
+  }
+  table {
+    width: 100%;
+  }
+  th {
+    text-align: left;
+  }
+  td {
+    text-align: right;
+  }
+  td,th {
+    padding-bottom: 34px;
+  }
   </style>
 </head>
-<body> 
+<body>
 
 <div id="pagebody" data-role="page">
 
@@ -54,14 +61,41 @@
 	</div>
 
     <div data-role="content">
-        <form id="callsign_lookup" action="http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/?">
+        <form data-ajax="false" id="callsign_lookup" action="http://apps.magicbug.co.uk/dxcc/index.php/api/dxcc/?">
             <div data-role="fieldcontain">
                     <input id="callsign" name="callsign" placeholder="callsign" value="" type="text" />
                 <input type="submit" value="Lookup" />
             </div>
         </form>
-    </div>
 
+  <table id="result">
+    <tr>
+      <th>Country</th>
+      <td class="name"></td>
+    </tr>
+    
+    <tr>
+      <th>Continent</th>
+      <td class="cont"></td>
+    </tr>
+
+    <tr>
+      <th>CQ Zone</th>
+      <td class="cqz"></td>
+    </tr>
+
+    <tr>
+      <th>ITU Zone</th>
+      <td class="ituz"></td>
+    </tr>
+
+    <tr>
+      <th>Location</th>
+      <td><span class="long"></span> <span class="lat"></span></td>
+    </tr>
+  </table>
+
+    </div>
 
 </div>
 
